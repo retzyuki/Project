@@ -1,0 +1,26 @@
+package pyra;
+
+public class Pyra {
+
+    public static void main(String[] args) {
+        for (int i = 1; i < 8; i += 2) {
+            for (int k = 0; k < (4 - i / 2); k++) {
+                System.out.print("  ");
+            }
+            for (int j = 0; j < i; j++) {
+                System.out.print(" *");
+            }
+            System.out.println("");
+        }
+        int x, y;
+        for (y = 4; y >= 1; y--) {
+            for (x = 0; x < 5 - y; x++) {
+                System.out.print("  ");
+            }
+            for (x = (2 - y); x < (2 - y) + (2 * y - 1); x++) {
+                System.out.print(" *");
+            }
+            System.out.println("");
+        }
+    }
+}
