@@ -1,0 +1,74 @@
+Pass by Value ( Get Max Heart Rate Method ) : 
+package getmaxheartrate;
+
+import java.io.*;
+
+public class GetMaxHeartRate {
+    
+    public static void main(String[] args) throws IOException{
+    int mhr = 220;
+    int age;
+              
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+    System.out.println("Enter your Age : ");
+    age = Integer.parseInt(br.readLine());
+    
+    
+        
+    maxHeartRate(age,mhr);
+       
+    }
+    
+    public static int maxHeartRate(int age,int mhr){
+        
+        int newmhr = mhr - age;
+        System.out.println("Your Max Heart Rate is : " + newmhr);
+        
+        return newmhr;
+        
+        
+    }
+    
+
+Pass by Reference ( Getting the Substring of a Sentence) :
+
+package substring;
+
+import java.io.*;
+public class Substring {
+  public static void main(String[] args) throws IOException {
+      String test = enter();
+      
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      
+      System.out.print("Enter Begin Element : ");
+      int first = Integer.parseInt(br.readLine());
+        
+      System.out.print("Enter End Element : ");
+      int last = Integer.parseInt(br.readLine());
+      
+       System.out.println("Entered Sentence is : " + test);
+       
+       
+        System.out.println("New Value is : ");
+        System.out.println(test.subSequence(first, last));
+        
+       
+    }
+    public static String enter()throws IOException{
+        String enter;
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter a Sentence: ");
+        enter = br.readLine();
+        
+        return enter;
+        
+    }
+    
+    public static void subString(int begin,int end){
+        
+    }
+    
+}
