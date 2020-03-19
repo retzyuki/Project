@@ -1,0 +1,328 @@
+> Wizard.java 
+
+package rpg;
+
+public class Wizard extends Character implements Weapon, Armour {
+    private int maxMana;
+    private int currentMana;
+
+    public Wizard (String n, int s, int d, int i){
+        super(n, s, d, i);
+        this.maxMana = dice.roll()*3;
+        this.currentMana = this.maxMana;
+    }
+    
+    public int castLightningBolt(){
+        int d = 0;
+        if (currentMana >= 5){
+            currentMana -= 5;
+            d = dice.roll()*this.intelligence;
+        
+        }
+        return d;
+        
+    }    
+    
+    @Override
+    public int attack() {
+        int a = dice.roll()*2;
+        return a;
+        
+    }
+    
+    public int getMaxMana(){
+        return this.maxMana;
+    }
+    
+    public int getCurrentMana(){
+        return this.currentMana;
+    }
+    
+    
+    @Override
+    public int useWeapon(){
+        int a = dice.roll()*super.getStrength();
+        return a;
+    }
+    
+    
+    @Override
+    public int useArmor(){
+        int h = 5;
+        if(currentMana >= 8){
+            currentMana -= 8;
+            h = dice.roll()*super.getStrength();
+        }
+        super.heal(h);
+        return h;
+    }
+}
+
+
+
+> Sccout.java <
+
+package rpg;
+
+public class Scout extends Character implements Weapon, Armour{
+
+
+    public Scout (String n, int s, int d, int i){
+        super(n, s, d, i);
+    }
+    
+        @Override
+    public int attack() {
+        int a = dice.roll()*2;
+        return a;
+    }
+    
+        @Override
+    public int useWeapon(){
+        int a = dice.roll()*super.getStrength();
+        return a;
+    }
+    
+        @Override
+    public int useArmor(){
+        int h = dice.roll()*super.getDexterity();
+        super.heal(h);
+        return h;
+    }
+    
+     public int tackle() {
+        return dice.roll()*dexterity;
+    }
+    
+}
+
+
+
+> Character.java <
+
+package rpg;
+
+public abstract class Character {
+
+    static Dice dice = new Dice();
+    
+    private String name;
+    protected int strength;
+    protected int dexterity;
+    protected int intelligence;
+    private int maxLife;
+    private int currentLife;
+    
+    /**
+     * Constructor takes 4 parameters: n,s,d,i and assigns them to instance
+     * variables name, strength, dexterity, intelligence. Also uses the dice
+     * instance to assign a random number to maxlife. currentlife is initialized
+     * to maxlife
+     */
+    public Character(String n, int s, int d, int i) {
+        this.name = n;
+        this.strength = s;
+        this.dexterity = d;
+        this.intelligence = i;
+        this.maxLife = dice.roll()*15;
+        this.currentLife = this.maxLife;
+    }
+
+    /**
+     * Returns a random die roll using the roll method in the Dice.java,
+     * *modified by the character's strength
+     * @return 
+     */
+    public abstract int attack();
+
+    /**
+     * Decreases currentlife by the damage parameter
+     */
+    public void wound(int damage) {
+        this.currentLife -= damage;
+    }
+
+    /**
+     * Increases currentlife by the heal parameter. currentlife cannot be
+     * greater than maxlife
+     */
+    public void heal(int heal) {
+        if(this.currentLife + heal <= this.maxLife){
+            this.currentLife += heal;
+        }
+        else{
+            this.currentLife = this.maxLife;
+        }
+    }
+
+    /**
+     * Returns name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Returns strength
+     */
+    public int getStrength() {
+        return this.strength;
+    }
+
+    /**
+     * Returns dexterity
+     */
+    public int getDexterity() {
+        return this.dexterity;
+    }
+    
+    /**
+     * Returns intelligence
+     */
+    public int getIntelligence() {
+        return this.intelligence;
+    }
+
+    /**
+     * Returns currentlife
+     */
+    public int getCurrentLife() {
+        return this.currentLife;
+    }
+
+    /**
+     * Returns maxlife
+     */
+    public int getMaxLife() {
+        return this.maxLife;
+    }
+    
+    /**
+     * Sets name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets strength
+     */
+    public void setStrength(int str) {
+        this.strength = str;
+    }
+
+    /**
+     * Sets dexterity
+     */
+    public void setDexterity(int dex) {
+        this.dexterity = dex;
+    }
+    
+    /**
+     * Sets intelligence
+     */
+    public void setIntelligence(int intel) {
+        this.intelligence = intel;
+    }
+
+    /**
+     * Sets currentlife
+     */
+    public void setCurrentLife(int hp) {
+        this.currentLife = hp;
+    }
+
+    /**
+     * Sets maxlife
+     */
+    public void setMaxLife(int maxHp) {
+        this.maxLife = maxHp;
+    }
+}
+
+
+
+> Armour Interface <
+package rpg;
+
+public interface Armour {
+    
+    public int useArmor();
+    
+}
+
+
+
+
+> Weapon Inteface < 
+package rpg;
+
+public interface Weapon {
+    
+    public int useWeapon();
+}
+
+
+
+
+> CharacterDuel.java <
+package rpg;
+
+public class CharacterDuel {
+    
+    public CharacterDuel(){
+        Dice d = new Dice();
+        Scout p1 = new Scout("Felipe", d.roll(), d.roll(), d.roll());
+        Wizard p3 = new Wizard("Cora", d.roll(), d.roll(), d.roll());
+        
+        for(int i = 1; i <= 1000; i++){
+            System.out.println("Round "+i);
+            System.out.println(p1.getName()+": "+p1.getCurrentLife()+ " HP");
+            System.out.println(p3.getName()+": "+p3.getCurrentLife()+ " HP");
+            int damage1 = p1.useWeapon()+p1.attack(), damage2 = p3.castLightningBolt(), damage3 = p3.useWeapon()+p3.attack();
+             
+            //WIZARD MOVE
+            if(d.roll()<=3 && (p3.getCurrentLife()<(p3.getMaxLife()*0.5))){
+                int p3Heal = p3.useArmor();
+                System.out.println(p3.getName() + " healed for " + p3Heal + " HP!");
+            }
+            else if(p3.getCurrentMana()<5){
+                System.out.println(p3.getName() + " hits " + p1.getName() + " with the staff for " + damage3);
+                p1.wound(damage3);
+            }
+            else {
+                System.out.println(p3.getName() + " casts lightning bolt on " + p1.getName() + " for " + damage2);
+                p1.wound(damage2);
+            }
+            
+            //SCOUT MOVE
+            if (d.roll()<=3 && (p1.getCurrentLife()<(p1.getMaxLife()*0.5)) && p1.getCurrentLife() > 0){
+                int p1potion = p1.useArmor();
+                System.out.println(p1.getName() + " drank coke and recovered " + p1potion + " HP!");
+            }
+            
+            else if (p1.getCurrentLife() > 0){
+                System.out.println(p1.getName()+" hits "+p3.getName()+ " with a baseball bat for "+damage1);
+                p3.wound(damage1);
+            }
+            
+            
+            //VERDICT
+            if(p1.getCurrentLife() <= 0 && p3.getCurrentLife() > 0){
+                    System.out.println("-------------");
+                    System.out.println(p1.getName() + "'s FINAL HP: " + p1.getCurrentLife());
+                    System.out.println(p3.getName() + "'s FINAL HP: " + p3.getCurrentLife());
+                    System.out.println(p3.getName()+" wins!");
+                    break;
+                }                
+            else if (p3.getCurrentLife() <= 0 && p1.getCurrentLife() > 0){
+                System.out.println("-------------");
+                System.out.println(p1.getName() + "'s FINAL HP: " + p1.getCurrentLife());
+                System.out.println(p3.getName() + "'s FINAL HP: " + p3.getCurrentLife());
+                System.out.println(p1.getName()+" wins!");
+                break;
+            }
+            System.out.println("  ");
+        }
+    }
+}

@@ -1,0 +1,132 @@
+> Wizard.java <
+
+package rpg;
+
+public class Wizard extends Character {
+    private int maxMana;
+    private int currentMana;
+
+    public Wizard (String n, int s, int d, int i){
+        super(n, s, d, i);
+        this.maxMana = dice.roll();
+        this.currentMana = this.maxMana;
+    }
+    
+    public int castLightningBolt(){
+        int d = 0;
+        if (currentMana >= 5){
+            currentMana -= 5;
+            d = dice.roll()*this.intelligence;
+        }
+        return d;
+    }
+    
+    public int castHeal(){
+        int h = 0;
+        if(currentMana >= 8){
+            currentMana -= 8;
+            h = dice.roll()*intelligence;
+        }
+        super.heal(h);
+        return h;
+    }
+    
+    @Override
+    public int attack() {
+        int a = dice.roll()*2;
+        currentMana += a;
+        return a;
+        
+    }
+    
+    public int getMaxMana(){
+        return this.maxMana;
+    }
+    
+    public int getCurrentMana(){
+        return this.currentMana;
+    }
+}
+
+
+
+> Scout.java <
+
+package rpg;
+
+public class Scout extends Character{
+
+
+    public Scout (String n, int s, int d, int i){
+        super(n, s, d, i);
+    }
+    
+     public int tackle() {
+        return dice.roll()*dexterity;
+    }
+    
+}
+
+
+
+
+
+> CharacterDuel.java <
+
+package rpg;
+
+public class CharacterDuel {
+    
+    public CharacterDuel(){
+        Dice d = new Dice();
+        Scout p1 = new Scout("Felipe", d.roll(), d.roll(), d.roll());
+        Wizard p3 = new Wizard("Cora", d.roll(), d.roll(), d.roll());
+        
+        for(int i = 1; i <= 1000; i++){
+            System.out.println("Round "+i);
+            System.out.println(p1.getName()+": "+p1.getCurrentLife()+ " HP");
+            System.out.println(p3.getName()+": "+p3.getCurrentLife()+ " HP");
+            int damage1 = p1.tackle(), damage2 = p3.castLightningBolt();
+             
+            if(d.roll()<=3 && (p3.getCurrentLife()<(p3.getCurrentLife()*0.75))){
+                int p3Heal = p3.castHeal();
+                System.out.println(p3.getName() + " healed for " + p3Heal + " HP!");
+            }
+            else if(p3.getCurrentMana()<5){
+                System.out.println(p3.getName() + " attacks " + p1.getName() + " with her staff for " + p3.attack());
+            }
+            else {
+                System.out.println(p3.getName() + " casts lightning bolt on " + p1.getName() + " for " + damage2);
+                p1.wound(damage2);
+            }
+                      
+            if(p1.getCurrentLife() > 0){
+                System.out.println(p1.getName()+" tackles "+p3.getName()+" for "+damage1);
+                p3.wound(damage1);
+            }
+            
+            if(p1.getCurrentLife() <= 0 && p3.getCurrentLife() > 0){
+                    System.out.println("-------------");
+                    System.out.println(p1.getName() + "'s FINAL HP: " + p1.getCurrentLife());
+                    System.out.println(p3.getName() + "'s FINAL HP: " + p3.getCurrentLife());
+                    System.out.println(p3.getName()+" wins!");
+                    break;
+                }                
+            else if (p3.getCurrentLife() <= 0 && p1.getCurrentLife() > 0){
+                System.out.println("-------------");
+                System.out.println(p1.getName() + "'s FINAL HP: " + p1.getCurrentLife());
+                System.out.println(p3.getName() + "'s FINAL HP: " + p3.getCurrentLife());
+                System.out.println(p1.getName()+" wins!");
+                break;
+            }
+            else if(p3.getCurrentLife() == p1.getCurrentLife()){
+                    System.out.println("-------------");
+                    System.out.println(p1.getName() + "'s FINAL HP: " + p1.getCurrentLife());
+                    System.out.println(p3.getName() + "'s FINAL HP: " + p3.getCurrentLife());
+                    System.out.println(p3.getName()+" wins!");
+                    break;
+            }
+            System.out.println("  ");
+        }
+    }
+}

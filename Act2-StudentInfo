@@ -1,0 +1,101 @@
+
+package studentinfo;
+
+public class Student {
+
+    public static void main(String[] args) {
+        
+       StudentInfo efraim = new StudentInfo("CITCS", "2400-8900" , "3rd");
+        
+       efraim.setidNumber("12-3232-424");
+       efraim.setlastName("Pangan");
+       efraim.setfirstName("Efraim Jedede");
+       efraim.setacademicProg("BSCS");
+       efraim.setmajor("pokpok");
+       efraim.preeeeent();
+       System.out.println("    ");
+       
+       StudentInfo denmark = new StudentInfo("CITCS", "2018-2019" , "2nd");
+        
+       denmark.setidNumber("18-3049-730");
+       denmark.setlastName("Velasquez");
+       denmark.setfirstName("Denmark Ray");
+       denmark.setacademicProg("BSIT");
+       denmark.setmajor("NET SEC");
+       denmark.preeeeent();
+       System.out.println("    ");
+       
+       
+    }
+        
+    }
+
+package studentinfo;
+
+public class StudentInfo {
+    
+    public String college;
+    private String academicProg;
+    private String major;  
+    private String idNumber;
+    private String firstName;
+    private String lastName;
+    public String year;
+    public String term;
+    
+    public StudentInfo(String col, String yr, String term){
+        year = yr;
+        college = col;
+        this.term = term;
+    }
+            
+    public void setidNumber(String idNumber){
+        this.idNumber = idNumber;
+    }
+     public String getidNumber(){
+        return idNumber;
+    }
+          
+    public void setfirstName(String firstName){
+        
+        this.firstName = firstName;
+    }
+      public String getfirstName(){
+        return firstName;
+    }
+          
+    public void setlastName(String lastName){
+        this.lastName = lastName;
+    }
+      public String getlastName(){
+        return lastName;
+    }
+      
+    public void setacademicProg(String academicProg){
+        this.academicProg = academicProg;
+    }
+     public String getacademicProg(){
+        return academicProg;
+    }
+     
+         public void setmajor(String major){
+        this.major = major;
+    }
+     public String getmajor(){
+        return major;
+    }
+      
+      
+          
+    public void preeeeent() {
+        System.out.println("University of the Cordilleras");
+        System.out.println("College: " + college);
+        System.out.println(term + " term, S.Y. " + year);
+        System.out.println(" ");
+        System.out.println("Student Info:");
+        System.out.println("ID Number: " + idNumber);
+        System.out.println("Student Name: " + lastName + ", " + firstName);
+        System.out.println("Academic Program: " + academicProg + " - " + major
+        + " TRACK");
+    }         
+}
